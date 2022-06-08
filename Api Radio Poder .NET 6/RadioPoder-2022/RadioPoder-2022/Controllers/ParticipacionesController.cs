@@ -23,13 +23,61 @@ namespace RadioPoder_2022.Controllers
             this.environment = environment;
         }
 
+
+        // GET api/<ComentariosController>/5
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Comentario>> Get(int id)
+        {
+            try
+            {
+
+                return Ok(context.Participaciones.Include(x => x.Usuario)
+                                                 .Include(x => x.Sorteo)
+                                                 .Where(x => x.Id == id));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         // Get: api/<controller>/obtenerTodos
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAll()
         {
             try
             {
-                return Ok(await context.Participaciones.Include(x => x.Usuario).Include(x=>x.Sorteo).ToListAsync());
+                var email = User.Identity.Name;
+
+                return Ok(await context.Participaciones.Include(x => x.Usuario)
+                                                        .Include(x=>x.Sorteo)
+                                                        .Where(x => x.Usuario.Email == email)
+                                                        .ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Participacion participacion)
+        {
+            try
+            {
+                var email = User.Identity.Name;
+
+                var usuario = await context.Usuarios.SingleOrDefaultAsync(x => x.Email == email);
+
+                participacion.Usuario = usuario;
+                participacion.UsuarioId = usuario.Id;
+                participacion.Fecha = DateTime.Now;
+
+                await context.Participaciones.AddAsync(participacion);
+                context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { id = participacion.Id }, participacion);
             }
             catch (Exception ex)
             {
