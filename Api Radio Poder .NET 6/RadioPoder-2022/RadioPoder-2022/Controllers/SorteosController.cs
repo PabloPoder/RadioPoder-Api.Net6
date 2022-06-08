@@ -45,8 +45,8 @@ namespace RadioPoder_2022.Controllers
         {
             try
             {
-                var noticia = await context.Sorteos.SingleOrDefaultAsync(item => item.Id == id);
-                return noticia != null ? Ok(noticia) : NotFound();
+                var sorteo = await context.Sorteos.SingleOrDefaultAsync(item => item.Id == id);
+                return sorteo != null ? Ok(sorteo) : NotFound();
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        [Authorize("Administrator")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Post([FromForm] Sorteo sorteo)
         {
             try
@@ -94,7 +94,7 @@ namespace RadioPoder_2022.Controllers
 
         // DELETE api/<controller>/5
         [HttpDelete("BajaLogica/{id}")]
-        [Authorize("Administrator")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> BajaLogica(int id)
         {
             try

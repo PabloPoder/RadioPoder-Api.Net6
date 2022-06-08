@@ -57,7 +57,7 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Post([FromForm] Noticia noticia)
         {
             try

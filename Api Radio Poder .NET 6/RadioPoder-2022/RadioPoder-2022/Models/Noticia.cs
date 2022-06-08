@@ -11,8 +11,8 @@ namespace RadioPoder_2022.Models
         [Required]
         public string Texto { get; set; }
         [DataType(DataType.Date)]
-        public DateTime Fecha { get; set; }
-        public string Foto { get; set; }
+        public DateTime? Fecha { get; set; }
+        public string? Foto { get; set; }
         [Display(Name = "Foto")]
         [NotMapped]
         public IFormFile FotoFile { get; set; }
