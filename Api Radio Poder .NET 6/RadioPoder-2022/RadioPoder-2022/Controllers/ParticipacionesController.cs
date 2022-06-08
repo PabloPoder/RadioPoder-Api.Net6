@@ -84,5 +84,54 @@ namespace RadioPoder_2022.Controllers
                 return BadRequest(ex);
             }
         }
+
+        // DELETE api/<controller>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var entidad = context.Participaciones.Include(e => e.Usuario)
+                                                     .Include(e => e.Sorteo)
+                                                     .FirstOrDefault(e => e.Id == id && e.Usuario.Email == User.Identity.Name);
+                if (entidad != null)
+                {
+                    context.Participaciones.Remove(entidad);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        /*
+        // DELETE api/<controller>/5
+        [HttpDelete("BajaLogica/{id}")]
+        public async Task<IActionResult> BajaLogica(int id)
+        {
+            try
+            {
+                var entidad = context.Participaciones.Include(e => e.Usuario)
+                                                     .Include(e => e.Sorteo)
+                                                     .FirstOrDefault(e => e.Id == id && e.Usuario.Email == User.Identity.Name);
+                if (entidad != null)
+                {
+                    entidad.Estado = false;
+                    context.Participaciones.Update(entidad);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        */
     }
 }
