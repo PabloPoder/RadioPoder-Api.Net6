@@ -160,7 +160,7 @@ namespace RadioPoder_2022.Controllers
                 // Compruebo que la clave sea la misma y que el usuario no sea null
                 if (usuario == null || usuario.Password != hashed)
                 {
-                    return BadRequest("Email y/o clave incorrecta");
+                    return BadRequest("Email y/o clave incorrecta!");
                 }
                 else
                 {
@@ -196,9 +196,11 @@ namespace RadioPoder_2022.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody] Usuario usuario)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var usuarioExistente = await context.Usuarios.SingleOrDefaultAsync(item => item.Email == usuario.Email);
+
+                if (usuarioExistente == null)
                 {
                     // Hasheo de clave
                     string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -214,14 +216,16 @@ namespace RadioPoder_2022.Controllers
                     await context.Usuarios.AddAsync(usuario);
                     context.SaveChanges();
                     return CreatedAtAction(nameof(Get), new { id = usuario.Id }, usuario);
+
                 }
-                return BadRequest();
+                else { return BadRequest("Email ya existente!");
+                }
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
+            else {
+                return BadRequest();
             }
         }
 
     }
 }
+

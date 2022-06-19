@@ -18,9 +18,6 @@ namespace RadioPoder_2022.Models
         public IFormFile FotoFile { get; set; }
         [Required]
         public string Autor { get; set; }
-
-        // TODO: Agregar likes y dislikes?
-        // Aparicion de tabla: Feed que contenga la votacion de los usuarios (like o dislike),
-        // la noticiaId y el usuarioId;
+        public int? Tiempo { get; set; }
     }
 }

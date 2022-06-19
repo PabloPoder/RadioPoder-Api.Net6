@@ -20,5 +20,7 @@ namespace RadioPoder_2022.Models
         [NotMapped]
         public IFormFile FotoFile { get; set; }
         public bool Estado { get; set; }
+        public int? GanadorId { get; set; }
+        public Usuario? Ganador { get; set; }
     }
 }

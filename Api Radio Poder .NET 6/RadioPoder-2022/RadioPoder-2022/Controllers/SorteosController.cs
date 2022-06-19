@@ -40,6 +40,38 @@ namespace RadioPoder_2022.Controllers
         }
 
         // GET api/<NoticiasController>/5
+        [HttpGet("GetGanador/{id}")]
+        public async Task<ActionResult> GetGanador(int id)
+        {
+            try
+            {
+                Sorteo sorteo = await context.Sorteos.SingleOrDefaultAsync(item => item.Id == id);
+                if(sorteo == null) return NotFound();
+
+
+                List<Participacion> participaciones = context.Participaciones.Where(x => x.SorteoId == sorteo.Id).ToList();
+
+                Random R = new Random();
+                int numeroRandom = R.Next(0, participaciones.Count());
+
+
+                var ganadorId = participaciones.ElementAt(numeroRandom).UsuarioId;
+
+                Usuario ganador = await context.Usuarios.SingleOrDefaultAsync(item => item.Id == ganadorId);
+
+                sorteo.Ganador = ganador;
+
+                context.Sorteos.Update(sorteo);
+                await context.SaveChangesAsync();
+                return Ok(sorteo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        // GET api/<NoticiasController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Noticia>> Get(int id)
         {

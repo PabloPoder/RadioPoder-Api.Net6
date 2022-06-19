@@ -53,7 +53,7 @@ namespace RadioPoder_2022.Controllers
 
                 return Ok(await context.Participaciones.Include(x => x.Usuario)
                                                         .Include(x=>x.Sorteo)
-                                                        .Where(x => x.Usuario.Email == email)
+                                                        .Where(x => x.Usuario.Email == email )
                                                         .ToListAsync());
             }
             catch (Exception ex)
@@ -68,8 +68,10 @@ namespace RadioPoder_2022.Controllers
             try
             {
                 var email = User.Identity.Name;
-
                 var usuario = await context.Usuarios.SingleOrDefaultAsync(x => x.Email == email);
+
+                var participaciones = context.Participaciones.Where(x => x.UsuarioId == usuario.Id && x.SorteoId == participacion.SorteoId).ToList();
+                if (participaciones.Count != 0) return BadRequest("Ya estas participando");
 
                 participacion.Usuario = usuario;
                 participacion.UsuarioId = usuario.Id;

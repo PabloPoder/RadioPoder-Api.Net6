@@ -57,22 +57,22 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
+        //[Authorize(Roles = "Administrador")]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromForm] Noticia noticia)
         {
             try
             {
-                    
                     string wwwPath = environment.WebRootPath;
-                    string path = Path.Combine(wwwPath, "uploads");
+                    string path = Path.Combine(wwwPath, "Uploads");
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
                     }
                     //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
-                    string fileName = "foto_" + noticia.Id + Path.GetExtension(noticia.FotoFile.FileName);
+                    string fileName = "foto_" + noticia.Titulo + Path.GetExtension(noticia.FotoFile.FileName);
                     string pathCompleto = Path.Combine(path, fileName);
-                    noticia.Foto = Path.Combine("/uploads", fileName);
+                    noticia.Foto = Path.Combine("/Uploads", fileName);
 
                     // Esta operación guarda la foto en memoria en la ruta que necesitamos
                     using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
@@ -81,6 +81,9 @@ namespace RadioPoder_2022.Controllers
                     }
 
                     noticia.Fecha = DateTime.Now;
+
+                    noticia.Tiempo = CalcularTiempoDeLectura(noticia.Texto);
+                    
 
                     await context.Noticias.AddAsync(noticia);
                     context.SaveChanges();
@@ -92,6 +95,21 @@ namespace RadioPoder_2022.Controllers
             }
         }
 
+        int CalcularTiempoDeLectura(String texto)
+        {
+            int tiempo = 0;
+
+            char[] delimiters = new char[] { ' ', '\r', '\n' };
+            var cantPalabras =  texto.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
+
+            tiempo = cantPalabras / 150;
+
+            if (tiempo < 1)
+                tiempo = 1;
+
+
+            return tiempo;
+        }
 
     }
 }
