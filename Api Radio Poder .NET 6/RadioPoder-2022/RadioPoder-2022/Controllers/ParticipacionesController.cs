@@ -24,10 +24,9 @@ namespace RadioPoder_2022.Controllers
         }
 
 
-        // GET api/<ComentariosController>/5
+        // GET api/<ParticipacionesController>/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Comentario>> Get(int id)
+        public async Task<ActionResult<Participacion>> Get(int id)
         {
             try
             {

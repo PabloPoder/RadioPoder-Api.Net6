@@ -19,8 +19,9 @@ namespace RadioPoder_2022.Models
         [Display(Name = "Foto")]
         [NotMapped]
         public IFormFile FotoFile { get; set; }
-        public bool Estado { get; set; }
+        public bool? Estado { get; set; }
         public int? GanadorId { get; set; }
+        [ForeignKey(nameof(GanadorId))]
         public Usuario? Ganador { get; set; }
     }
 }

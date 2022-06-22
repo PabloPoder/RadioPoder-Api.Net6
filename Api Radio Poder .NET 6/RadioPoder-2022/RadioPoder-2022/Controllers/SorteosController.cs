@@ -88,7 +88,6 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Post([FromForm] Sorteo sorteo)
         {
             try
@@ -101,7 +100,7 @@ namespace RadioPoder_2022.Controllers
                     Directory.CreateDirectory(path);
                 }
                 //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
-                string fileName = "foto_" + sorteo.Id + Path.GetExtension(sorteo.FotoFile.FileName);
+                string fileName = "foto_sorteos_" + sorteo.Titulo + Path.GetExtension(sorteo.FotoFile.FileName);
                 string pathCompleto = Path.Combine(path, fileName);
                 sorteo.Foto = Path.Combine("/uploads", fileName);
 
