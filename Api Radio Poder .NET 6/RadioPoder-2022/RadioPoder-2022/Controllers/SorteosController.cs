@@ -59,7 +59,8 @@ namespace RadioPoder_2022.Controllers
 
                 Usuario ganador = await context.Usuarios.SingleOrDefaultAsync(item => item.Id == ganadorId);
 
-                sorteo.Ganador = ganador;
+                sorteo.GanadorId = ganadorId;
+                // sorteo.Estado = false;
 
                 context.Sorteos.Update(sorteo);
                 await context.SaveChangesAsync();
