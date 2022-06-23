@@ -57,7 +57,7 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Policy = "RequiereRolAdministrador")]
         public async Task<IActionResult> Post([FromForm] Noticia noticia)
         {
             try
@@ -93,6 +93,7 @@ namespace RadioPoder_2022.Controllers
                 return BadRequest(ex);
             }
         }
+
 
         int CalcularTiempoDeLectura(String texto)
         {

@@ -80,9 +80,10 @@ namespace RadioPoder_2022.Controllers
             // No permitir editar email para no modificar el claim de email
             try
             {
-                if (ModelState.IsValid && context.Usuarios.AsNoTracking().SingleOrDefault(x => x.Id == id && x.Email == User.Identity.Name) != null)
+                var u = context.Usuarios.AsNoTracking().SingleOrDefault(x => x.Id == id && x.Email == User.Identity.Name);
+                if (ModelState.IsValid && u != null)
                 {
-                    usuario.Id = id;
+                    
 
                     string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: usuario.Password,
@@ -91,9 +92,11 @@ namespace RadioPoder_2022.Controllers
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
 
-                    usuario.Password = hashed;
+                    u.Password = hashed;
+                    u.Nombre = usuario.Nombre;
+                    u.Apellido = usuario.Apellido;
 
-                    context.Usuarios.Update(usuario);
+                    context.Usuarios.Update(u);
                     await context.SaveChangesAsync();
                     return Ok(usuario);
                 }

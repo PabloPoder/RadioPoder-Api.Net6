@@ -41,6 +41,7 @@ namespace RadioPoder_2022.Controllers
 
         // GET api/<NoticiasController>/5
         [HttpGet("GetGanador/{id}")]
+        [Authorize(Policy = "RequiereRolAdministrador")]
         public async Task<ActionResult> GetGanador(int id)
         {
             try
@@ -89,6 +90,8 @@ namespace RadioPoder_2022.Controllers
 
         // POST api/<controller>
         [HttpPost]
+        [Authorize(Policy = "RequiereRolAdministrador")]
+
         public async Task<IActionResult> Post([FromForm] Sorteo sorteo)
         {
             try
