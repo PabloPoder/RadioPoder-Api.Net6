@@ -68,12 +68,14 @@ namespace RadioPoder_2022.Controllers
             {
                 var email = User.Identity.Name;
                 var usuario = await context.Usuarios.SingleOrDefaultAsync(x => x.Email == email);
+                var sorteo = await context.Sorteos.SingleOrDefaultAsync(x => x.Id == participacion.SorteoId);
 
-                var participaciones = context.Participaciones.Where(x => x.UsuarioId == usuario.Id && x.SorteoId == participacion.SorteoId).ToList();
+                List<Participacion>? participaciones = context.Participaciones.Where(x => x.UsuarioId == usuario!.Id && x.SorteoId == participacion.SorteoId).ToList();
                 if (participaciones.Count != 0) return BadRequest("Ya estas participando");
 
+                participacion.Sorteo = sorteo;
                 participacion.Usuario = usuario;
-                participacion.UsuarioId = usuario.Id;
+                participacion.UsuarioId = usuario!.Id;
                 participacion.Fecha = DateTime.Now;
 
                 await context.Participaciones.AddAsync(participacion);

@@ -31,7 +31,7 @@ namespace RadioPoder_2022.Controllers
         {
             try
             {
-                return Ok(context.Sorteos.Where(x => x.Estado == true));
+                return Ok(await context.Sorteos.ToListAsync());
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace RadioPoder_2022.Controllers
             {
                 Sorteo sorteo = await context.Sorteos.SingleOrDefaultAsync(item => item.Id == id);
                 if(sorteo == null) return NotFound();
-
+                if (sorteo.GanadorId != null) return BadRequest("Ya hay un ganador");
 
                 List<Participacion> participaciones = context.Participaciones.Where(x => x.SorteoId == sorteo.Id).ToList();
 
@@ -112,7 +112,6 @@ namespace RadioPoder_2022.Controllers
                 }
 
                 sorteo.FechaInicio = DateTime.Now;
-                sorteo.Estado = true;
 
                 await context.Sorteos.AddAsync(sorteo);
                 context.SaveChanges();
@@ -124,6 +123,7 @@ namespace RadioPoder_2022.Controllers
             }
         }
 
+        /*
         // DELETE api/<controller>/5
         [HttpDelete("BajaLogica/{id}")]
         [Authorize(Roles = "Administrador")]
@@ -134,7 +134,6 @@ namespace RadioPoder_2022.Controllers
                 var entidad = context.Sorteos.FirstOrDefault(e => e.Id == id);
                 if (entidad != null)
                 {
-                    entidad.Estado = false;
                     context.Sorteos.Update(entidad);
                     context.SaveChanges();
                     return Ok();
@@ -146,5 +145,6 @@ namespace RadioPoder_2022.Controllers
                 return BadRequest(ex);
             }
         }
+        */
     }
 }
