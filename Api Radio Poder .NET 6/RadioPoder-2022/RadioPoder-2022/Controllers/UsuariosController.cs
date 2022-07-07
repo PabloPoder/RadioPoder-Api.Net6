@@ -57,6 +57,22 @@ namespace RadioPoder_2022.Controllers
             }
         }
 
+        // GET api/<UsuariosController>/5
+        [HttpGet("GetPorEmail{email}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Usuario>> GetPorEmail(string email)
+        {
+            try
+            {
+                var usuario = await context.Usuarios.SingleOrDefaultAsync(item => item.Email == email);
+                return usuario != null ? Ok() : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
 
         [HttpGet("UsuarioLogeado")]
         public async Task<ActionResult> UsuarioLogeado()
@@ -93,6 +109,31 @@ namespace RadioPoder_2022.Controllers
                         numBytesRequested: 256 / 8));
 
                     u.Password = hashed;
+                    u.Nombre = usuario.Nombre;
+                    u.Apellido = usuario.Apellido;
+
+                    context.Usuarios.Update(u);
+                    await context.SaveChangesAsync();
+                    return Ok(usuario);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPut("EditarUsuarioGoogle/{id}")]
+        public async Task<ActionResult> EditarUsuarioGoogle (int id, [FromBody] Usuario usuario)
+        {
+            // No permitir editar email para no modificar el claim de email
+            try
+            {
+                var u = context.Usuarios.AsNoTracking().SingleOrDefault(x => x.Id == id && x.Email == User.Identity.Name);
+                if (ModelState.IsValid && u != null)
+                {
+
                     u.Nombre = usuario.Nombre;
                     u.Apellido = usuario.Apellido;
 

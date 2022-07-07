@@ -15,5 +15,6 @@ namespace RadioPoder_2022.Models
         public Usuario? Usuario { get; set; }
         [Required]
         public int NoticiaId { get; set; }
+        public bool Estado { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace RadioPoder_2022.Controllers
             try
             {
                 return Ok(context.Comentarios.Include(x => x.Usuario)
-                                             .Where(x => x.NoticiaId == id));
+                                             .Where(x => x.NoticiaId == id && x.Estado == true));
 
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace RadioPoder_2022.Controllers
 
                 comentario.Usuario = usuario;
                 comentario.UsuarioId = usuario.Id;
-
+                comentario.Estado = true;
                 comentario.Fecha = DateTime.Now;
 
                 await context.Comentarios.AddAsync(comentario);
@@ -65,6 +65,7 @@ namespace RadioPoder_2022.Controllers
             }
         }
 
+        /*
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -85,9 +86,9 @@ namespace RadioPoder_2022.Controllers
             {
                 return BadRequest(ex);
             }
-        }
+        }*/
 
-        /*
+        
         // DELETE api/<controller>/5
         [HttpDelete("BajaLogica/{id}")]
         public async Task<IActionResult> BajaLogica(int id)
@@ -109,7 +110,7 @@ namespace RadioPoder_2022.Controllers
                 return BadRequest(ex);
             }
         }
-        */
+        
 
     }
 }
