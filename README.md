@@ -1,8 +1,8 @@
 
 # RadioPoder-Api.Net6
 
-![GitHub last commit](https://img.shields.io/github/last-commit/PabloPoder/RadioPoder-Flutter?logo=github)
-![GitHub repo size](https://img.shields.io/github/repo-size/PabloPoder/RadioPoder-Flutter?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/PabloPoder/RadioPoder-Api.Net6?logo=github)
+![GitHub repo size](https://img.shields.io/github/repo-size/PabloPoder/RadioPoder-Api.Net6?logo=github)
 
 
 API Rest desarrollada con .NET CORE 
