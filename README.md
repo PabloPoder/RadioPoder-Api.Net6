@@ -9,7 +9,7 @@ API Rest desarrollada con .NET CORE
 
 - <a href="https://github.com/PabloPoder/RadioPoder-Flutter">Repositorio de app desarrollada en Flutter: </a>
 
-# Comantarios 
+# Comentarios 
 - Get (id)
 - GetAll
 - Update
@@ -21,7 +21,7 @@ API Rest desarrollada con .NET CORE
 - Post
 - TiempoDeLectura
 
-# Usuario
+# Usuarios
 - Get
 - GetAll
 - GetPorEmail
@@ -31,7 +31,7 @@ API Rest desarrollada con .NET CORE
 - EditarUsuario
 - EditarUsuarioGoogle
 
-# Sorteo
+# Sorteos
 - Get
 - GetAll
 - GetGanador
