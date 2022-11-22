@@ -9,6 +9,11 @@ API Rest desarrollada con .NET CORE
 
 - <a href="https://github.com/PabloPoder/RadioPoder-Flutter">Repositorio de app desarrollada en Flutter: </a>
 
+# UML
+
+![image](https://user-images.githubusercontent.com/50326883/203380289-fb42008b-753a-42b9-a46a-027a48de4b1f.png)
+
+
 # Comentarios 
 - Get (id)
 - GetAll
@@ -42,3 +47,5 @@ API Rest desarrollada con .NET CORE
 - GetAll
 - Post
 - Delte
+
+
